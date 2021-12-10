@@ -1,7 +1,7 @@
 package com.github.unscientificjszhai.unscientificlivedata.demo
 
 import androidx.lifecycle.ViewModel
-import com.github.unscientificjszhai.livedata.ArrayListLiveData
+import com.github.unscientificjszhai.unscientificlivedata.list.ArrayListLiveData
 import kotlin.reflect.KProperty
 
 /**

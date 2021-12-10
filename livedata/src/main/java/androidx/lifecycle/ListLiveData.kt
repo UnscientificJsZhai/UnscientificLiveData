@@ -28,6 +28,7 @@ abstract class ListLiveData<T>(originalList: List<T>) :
             val newList: List<T> = ArrayList(it)
             observer.onChanged(newList)
         }
+
         super.observe(owner, elementsObserver)
     }
 
@@ -48,6 +49,7 @@ abstract class ListLiveData<T>(originalList: List<T>) :
             val newList: List<T> = ArrayList(it)
             observer.onChanged(newList)
         }
+
         super.observeForever(elementsObserver)
     }
 

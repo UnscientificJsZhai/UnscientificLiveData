@@ -1,4 +1,4 @@
-package com.github.unscientificjszhai.livedata
+package com.github.unscientificjszhai.unscientificlivedata
 
 import org.junit.Test
 
