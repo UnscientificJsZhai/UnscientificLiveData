@@ -22,7 +22,11 @@ class ArrayListLiveData<T>(originalList: ArrayList<T>) :
     }
 
     override fun postValue(value: List<T>?) {
-        //TODO
+        mArrayList = if (value != null) {
+            ArrayList(value)
+        } else {
+            arrayListOf()
+        }
         super.postValue(value)
     }
 
@@ -47,8 +51,7 @@ class ArrayListLiveData<T>(originalList: ArrayList<T>) :
 
     override fun isEmpty() = mArrayList.isEmpty()
 
-    override fun iterator() = mArrayList.iterator()
-    //TODO 检查迭代器方法
+    override fun iterator(): MutableIterator<T> = ListIterator(mArrayList, 0)
 
     override fun lastIndexOf(element: T) = mArrayList.lastIndexOf(element)
 
@@ -74,10 +77,9 @@ class ArrayListLiveData<T>(originalList: ArrayList<T>) :
         value = mArrayList
     }
 
-    override fun listIterator() = mArrayList.listIterator()
-    //TODO 检查迭代器方法
+    override fun listIterator(): MutableListIterator<T> = ListIterator(mArrayList, 0)
 
-    override fun listIterator(index: Int) = mArrayList.listIterator(index)
+    override fun listIterator(index: Int): MutableListIterator<T> = ListIterator(mArrayList, index)
 
     override fun remove(element: T): Boolean {
         val result = mArrayList.remove(element)
@@ -109,9 +111,17 @@ class ArrayListLiveData<T>(originalList: ArrayList<T>) :
         return previous
     }
 
-    override fun subList(fromIndex: Int, toIndex: Int): MutableList<T> = SubList(fromIndex, toIndex)
+    override fun subList(fromIndex: Int, toIndex: Int): MutableList<T> =
+        SubList(fromIndex, toIndex)
 
-    private inner class SubList(fromIndex: Int, toIndex: Int) : MutableList<T> {
+    /**
+     * LiveData子列表的包装类。用来保证对子列表进行操作也能触发数据推送。
+     *
+     * @param fromIndex 起始索引。包括此索引。
+     * @param toIndex 终止索引。不包括此索引。
+     */
+    private inner class SubList(private var fromIndex: Int, private var toIndex: Int) :
+        MutableList<T> {
 
         private val mSubList = mArrayList.subList(fromIndex, toIndex)
 
@@ -128,7 +138,7 @@ class ArrayListLiveData<T>(originalList: ArrayList<T>) :
 
         override fun isEmpty() = mSubList.isEmpty()
 
-        override fun iterator() = mSubList.iterator()
+        override fun iterator() = ListIterator(this, 0)
 
         override fun lastIndexOf(element: T) = mSubList.lastIndexOf(element)
 
@@ -140,55 +150,59 @@ class ArrayListLiveData<T>(originalList: ArrayList<T>) :
 
         override fun add(index: Int, element: T) {
             mSubList.add(index, element)
+            fromIndex += 1
             value = mArrayList
         }
 
         override fun addAll(index: Int, elements: Collection<T>): Boolean {
             val result = mSubList.addAll(index, elements)
+            toIndex = fromIndex + mSubList.size
             value = mArrayList
             return result
         }
 
         override fun addAll(elements: Collection<T>): Boolean {
             val result = mSubList.addAll(elements)
+            toIndex = fromIndex + mSubList.size
             value = mArrayList
             return result
         }
 
         override fun clear() {
             mSubList.clear()
+            toIndex = fromIndex
             value = mArrayList
         }
 
-        override fun listIterator(): MutableListIterator<T> {
-            TODO("Not yet implemented")
-        }
+        override fun listIterator(): MutableListIterator<T> = ListIterator(this, 0)
 
-        override fun listIterator(index: Int): MutableListIterator<T> {
-            TODO("Not yet implemented")
-        }
+        override fun listIterator(index: Int): MutableListIterator<T> = ListIterator(this, index)
 
         override fun remove(element: T): Boolean {
             val result = mSubList.remove(element)
             value = mArrayList
+            toIndex -= 1
             return result
         }
 
         override fun removeAll(elements: Collection<T>): Boolean {
             val result = mSubList.removeAll(elements)
             value = mArrayList
+            toIndex = fromIndex + mSubList.size
             return result
         }
 
         override fun removeAt(index: Int): T {
             val result = mSubList.removeAt(index)
             value = mArrayList
+            toIndex -= 1
             return result
         }
 
         override fun retainAll(elements: Collection<T>): Boolean {
             val result = mSubList.retainAll(elements)
             value = mArrayList
+            toIndex = fromIndex + mSubList.size
             return result
         }
 
@@ -199,7 +213,47 @@ class ArrayListLiveData<T>(originalList: ArrayList<T>) :
         }
 
         override fun subList(fromIndex: Int, toIndex: Int): MutableList<T> {
-            TODO("Not yet implemented")
+            return SubList(this.fromIndex + fromIndex, this.fromIndex + toIndex)
+        }
+    }
+
+    /**
+     * ListIterator的包装类。用来保证对可变迭代器的操作也能触发数据推送。
+     *
+     * @see ArrayListLiveData.listIterator
+     * @see ArrayListLiveData.iterator
+     * @param parent 父List。可以为SubList。
+     * @param index 起始索引。
+     */
+    private inner class ListIterator(parent: MutableList<T>, index: Int) : MutableListIterator<T> {
+
+        private val mIterator = parent.listIterator(index)
+
+        override fun hasPrevious() = mIterator.hasPrevious()
+
+        override fun nextIndex() = mIterator.nextIndex()
+
+        override fun previous() = mIterator.previous()
+
+        override fun previousIndex() = mIterator.previousIndex()
+
+        override fun add(element: T) {
+            mIterator.add(element)
+            value = mArrayList
+        }
+
+        override fun hasNext() = mIterator.hasNext()
+
+        override fun next() = mIterator.next()
+
+        override fun remove() {
+            mIterator.remove()
+            value = mArrayList
+        }
+
+        override fun set(element: T) {
+            mIterator.set(element)
+            value = mArrayList
         }
     }
 }
