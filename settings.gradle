@@ -8,3 +8,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "UnscientficLiveData"
 include ':livedata'
+include ':demo'

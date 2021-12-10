@@ -8,9 +8,11 @@ import androidx.lifecycle.ListLiveData
 class ArrayListLiveData<T>(originalList: ArrayList<T>) :
     ListLiveData<T>(originalList), MutableList<T> {
 
+    constructor() : this(arrayListOf())
+
     // LiveData实现部分
 
-    private var mArrayList = ArrayList<T>()
+    private var mArrayList = ArrayList<T>(originalList)
 
     override fun setValue(value: List<T>?) {
         mArrayList = if (value != null) {
