@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 /**
  * 首页展示整型列表的RecyclerView的适配器。
  *
+ * @author UnscientificJsZhai
  * @param onRemove 当长按移除一个元素时调用的方法。
  */
 class IntListAdapter(private val onRemove: (Int) -> Unit) :

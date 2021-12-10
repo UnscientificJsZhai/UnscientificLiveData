@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
  * 包含一个RecyclerView和一个右上角菜单项。
  * 按右上角菜单项可以添加一个新的项目，长按一个项目可以删除它。
  *
+ * @author UnscientificJsZhai
  * @see MainActivityViewModel
  */
 class MainActivity : AppCompatActivity() {
@@ -37,8 +38,8 @@ class MainActivity : AppCompatActivity() {
         this.recyclerView.layoutManager = LinearLayoutManager(this)
         this.recyclerView.adapter = this.adapter
 
-        viewModel.mList.observe(this) { currentList ->
-            Log.e("MainActivity", "onCreate: $currentList", )
+        viewModel.mList.observeElements(this) { currentList ->
+            Log.e("MainActivity", "onCreate: $currentList")
             this.adapter.submitList(currentList)
         }
     }

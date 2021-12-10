@@ -3,16 +3,40 @@ package com.github.unscientificjszhai.livedata
 import androidx.lifecycle.ListLiveData
 
 /**
+ * 包装ArrayList的LiveData。
  *
+ * 可以订阅此ArrayList的内部数据变更消息。当列表内数据变更时，也可以通知到界面。
+ *
+ * @author UnscientificJsZhai
+ * @see ListLiveData.observeElements
+ * @see ListLiveData.observeElementsForever
  */
-class ArrayListLiveData<T>(originalList: ArrayList<T>) :
-    ListLiveData<T>(originalList), MutableList<T> {
+class ArrayListLiveData<T> : ListLiveData<T>, MutableList<T> {
 
-    constructor() : this(arrayListOf())
+    /**
+     * 用给定列表中的数据构建一个LiveData。
+     *
+     * @param originalList 原始数据。会从中拷贝出所有数据，不会复用该列表对象。
+     */
+    constructor(originalList: ArrayList<T>) : super(originalList) {
+        this.mArrayList = ArrayList(originalList)
+    }
+
+    /**
+     * 创建一个空的列表的LiveData。
+     */
+    constructor() : this(arrayListOf()) {
+        this.mArrayList = ArrayList()
+    }
 
     // LiveData实现部分
 
-    private var mArrayList = ArrayList<T>(originalList)
+    /**
+     * 列表的内部实现。
+     *
+     * 用于保存数据。
+     */
+    private var mArrayList: ArrayList<T>
 
     override fun setValue(value: List<T>?) {
         mArrayList = if (value != null) {
