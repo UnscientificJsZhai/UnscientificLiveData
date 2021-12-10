@@ -55,6 +55,12 @@ class MainActivity : AppCompatActivity() {
             this.viewModel.mList.add(currentNumber + 1)
             this.viewModel.currentNumber = currentNumber + 1
             return true
+        } else if (item.itemId == R.id.MainActivity_Iterate) {
+            ToastThread(
+                this.viewModel.mList.listIterator(),
+                this
+            ).start()
+            return true
         }
         return super.onOptionsItemSelected(item)
     }

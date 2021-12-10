@@ -7,6 +7,7 @@ import kotlin.reflect.KProperty
 /**
  * MainActivity的ViewModel，用于存放和界面有关的数据。
  *
+ * @author UnscientificJsZhai
  * @see MainActivity
  * @see ArrayListLiveData
  */

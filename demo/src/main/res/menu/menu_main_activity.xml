@@ -6,4 +6,9 @@
         android:id="@+id/MainActivity_AddButton"
         android:title="@string/MainActivity_AddButton"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/MainActivity_Iterate"
+        android:title="@string/MainActivity_Iterate"
+        app:showAsAction="ifRoom" />
 </menu>
