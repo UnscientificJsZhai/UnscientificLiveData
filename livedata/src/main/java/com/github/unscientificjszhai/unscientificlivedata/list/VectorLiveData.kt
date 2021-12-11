@@ -157,8 +157,10 @@ class VectorLiveData<T> : MutableListLiveData<T>, MutableList<T> {
      * @param fromIndex 起始索引。包括此索引。
      * @param toIndex 终止索引。不包括此索引。
      */
-    private inner class SubList(private var fromIndex: Int, private var toIndex: Int) :
-        MutableList<T> {
+    private inner class SubList(
+        private var fromIndex: Int,
+        private var toIndex: Int
+    ) : MutableList<T> {
 
         /**
          * 子列表的内部实现。
