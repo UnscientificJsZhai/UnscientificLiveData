@@ -3,9 +3,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        jcenter() // Warning: this repository is going to shut down soon
     }
 }
 rootProject.name = "UnscientficLiveData"
 include ':livedata'
-include ':demo'
+if (!System.env.JITPACK) include ':demo'
