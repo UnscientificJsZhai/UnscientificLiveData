@@ -6,7 +6,7 @@ import android.widget.Toast
 /**
  * 展示迭代器效果。
  *
- * 启动此线程后，通过传入的迭代器，没500毫秒删除一个迭代器中的元素，并Toast出元素。
+ * 启动此线程后，通过传入的迭代器，每500毫秒删除一个迭代器中的元素，并Toast出元素。
  * 会调用元素的[Any.toString]方法。
  *
  * @author UnscientificJsZhai
