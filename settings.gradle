@@ -5,6 +5,6 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "UnscientficLiveData"
+rootProject.name = "UnscientificLiveData"
 include ':livedata'
 if (!System.env.JITPACK) include ':demo'

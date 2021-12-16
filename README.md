@@ -1,8 +1,8 @@
-# UnscientficLiveData
+# UnscientificLiveData
 
 大三上基于开源和群智的软件工程实践作业。扩展Android Jetpack库中的LiveData功能。
 
-[![](https://jitpack.io/v/UnscientificJsZhai/UnscientficLiveData.svg)](https://jitpack.io/#UnscientificJsZhai/UnscientficLiveData)
+[![](https://jitpack.io/v/UnscientificJsZhai/UnscientificLiveData.svg)](https://jitpack.io/#UnscientificJsZhai/UnscientificLiveData)
 
 ## 特点
 
@@ -57,4 +57,4 @@ dependencies {
 
 需要把“Tag”改为当前版本号。当前版本：
 
-[![](https://jitpack.io/v/UnscientificJsZhai/UnscientficLiveData.svg)](https://jitpack.io/#UnscientificJsZhai/UnscientficLiveData)
+[![](https://jitpack.io/v/UnscientificJsZhai/UnscientificLiveData.svg)](https://jitpack.io/#UnscientificJsZhai/UnscientificLiveData)
